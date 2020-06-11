@@ -29,10 +29,10 @@ def player_animation():
 
 
 def opponent_ai():
-    # Simple AI which looks at the top and bottom of the paddle in relation to the ball position and moves accordingly
+    # Simple AI which looks at the top and bottom of the paddle in relation to the ball position
     if opponent.top <= ball.y:
         opponent.top += opponent_speed
-    if opponent.bottom >= ball.x:
+    if opponent.bottom >= ball.y:
         opponent.bottom -= opponent_speed
     if opponent.top <= 0:
         opponent.top = 0
@@ -60,8 +60,9 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong')
 
 # Game Rectangles
-ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Height / 2 - half of width
+# To place player at center of y axis, height / 2 - half of width
 player = pygame.Rect(screen_width - 20, screen_height / 2 - 70, 10, 140)
+ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  
 opponent = pygame.Rect(10, screen_height / 2 - 70, 10, 140)
 
 # Color can be handled using either pygame.Color or by assigning rgb values
@@ -96,12 +97,14 @@ while True:
     player_animation()
     opponent_ai()
 
-    # Visuals (These are drawn in order from top to bottom, ensure background is first to avoid overwrite)
+    # Visuals
+    #  These are drawn in order from top to bottom, ensure background is first to avoid overwriting
     screen.fill(bg_color)  # Fill the background
     pygame.draw.rect(screen, light_grey, player)
     pygame.draw.rect(screen, light_grey, opponent)
     pygame.draw.ellipse(screen, light_grey, ball)
-    pygame.draw.aaline(screen, light_grey, (screen_width / 2, 0), (screen_width / 2, screen_height))  # Half court line
+    # Half court line
+    pygame.draw.aaline(screen, light_grey, (screen_width / 2, 0), (screen_width / 2, screen_height))
 
     # Update the window
     pygame.display.flip()
